@@ -1,142 +1,67 @@
-class InputsApp {
-    inputValues: Array<number> = [];
-    countNumber = 1;
+// When window loads
+window.addEventListener('load', () => {
+    const createButton: HTMLButtonElement = document.querySelector('button') as HTMLButtonElement;
 
-    constructor() {
-        // catching input
-        const countInput: HTMLElement = document.getElementById('inputs-count');
+    createButton.addEventListener('click', function () {
+        // Gets number of inputs to create
+        const inputsQuantity: HTMLInputElement = document.getElementById('inputsQuantity') as HTMLInputElement;
+        const inputsSection: HTMLDivElement = document.getElementById('inputsSection') as HTMLDivElement;
 
-        countInput.addEventListener('input', (event: Event) => {
-            const target = event.target as HTMLInputElement;
-            this.countNumber = Number(target.value);
-            new UI(this.countNumber, this.inputValues);
-        });
-        new UI(this.countNumber, this.inputValues);
-    }
-}
-
-// liczenie
-class Stats {
-    sum(values: Array<number>): number {
-        return values.reduce((a, b) => a + b, 0);
-    }
-    average(values: Array<number>): number {
-        return Number((values.reduce((a, b) => a + b, 0) / values.length).toFixed(2));
-    }
-    min(values: Array<number>): number {
-        return Math.min(...values);
-    }
-    max(values: Array<number>): number {
-        return Math.max(...values);
-    }
-}
-
-class NumberInput {
-    input: HTMLInputElement;
-    button: HTMLButtonElement;
-    constructor(id: any, count: any, values: Array<number>) {
-        // input
-        this.input = document.createElement('input');
-        this.input.type = "number";
-        this.input.value = values[id] ? String(values[id]) : '0';
-        this.input.id = `input-${id}`;
-        values[id] = Number(this.input.value);
-        this.input.addEventListener('input', (event: Event) => {
-            const target = event.target as HTMLInputElement;
-            values[id] = Number(target.value);
-            new UI(count, values);
-        });
-        // delete button
-        this.button = document.createElement('button');
-        this.button.innerText = "delete";
-        this.button.addEventListener('click', (event: Event) => {
-            const countInput: HTMLInputElement = document.getElementById('inputs-count') as HTMLInputElement;
-            console.log(values);
-            values[id] = 0;
-            values.splice(id,1);
-            count -= 1;
-            countInput.value = count;
-            console.log({count});
-
-            new UI(count, values);
-        });
-
-    }
-
-    render() : HTMLDivElement {
-        const container = document.createElement('div');
-        container.className = "input-container";
-        container.appendChild(this.input);
-        container.appendChild(this.button);
-
-        return container;
-    }
-}
-
-class UI {
-    statsSection = document.getElementById('UI-section');
-    constructor(inputCount: number, values: Array<number>) {
-        this.statsSection.innerHTML = null;
-        if (this.validateNumbers(inputCount, values)) {
-            this.generateUI(inputCount, values);
-        } else {
-            const inputsSection = document.getElementById('inputs');
-            inputsSection.innerHTML = null;
-            this.generateInvalidUI();
-        }
-    }
-
-    validateNumbers(inputCount: number, values: Array<number>): boolean {
-        let isValid = false;
-        console.log(inputCount);
-        if (values && inputCount > 0) {
-            isValid = values.every((val) => typeof val === 'number');
-        }
-
-        return isValid;
-    }
-
-    generateStat(name: string, calcMethod: Function, values: Array<number>): HTMLDivElement {
-        const statName = document.createElement('p');
-        const value = document.createElement('b');
-        statName.innerText = name;
-        value.innerText = calcMethod(values);
-
-        const container = document.createElement('div');
-        container.appendChild(statName);
-        container.appendChild(value);
-
-        return container;
-    }
-    generateNumberInputs(count: number, values: Array<number>): void{
-        const inputsSection = document.getElementById('inputs');
+        // resets rendered inputs
         inputsSection.innerHTML = null;
-        for (let i = 0; i < count; i++) {
-            const input = new NumberInput(i,count, values).render();
-            inputsSection.appendChild(input);
+
+        for (let i: number = 0; i < Number(inputsQuantity.value); i++) {
+            const newInput: HTMLInputElement = document.createElement('input');
+            newInput.type = 'number';
+            newInput.value = '0';
+
+            // Appends new input at the end
+            inputsSection.append(newInput);
         }
-    }
-    generateUI(inputCount: number, values: Array<number>): void {
-        const stats = new Stats;
-        const sections: Array<HTMLDivElement> = [];
-        this.generateNumberInputs(inputCount, values);
-        const valuesToCount = values.slice(0, inputCount);
-        sections.push(this.generateStat('Sum', stats.sum, valuesToCount));
-        sections.push(this.generateStat('Average', stats.average, valuesToCount));
-        sections.push(this.generateStat('Min', stats.min, valuesToCount));
-        sections.push(this.generateStat('Max', stats.max, valuesToCount));
 
-        sections.forEach((el: HTMLDivElement) => {
-            this.statsSection.appendChild(el);
+        // Gets all rendered inputs
+        const inputs: NodeListOf<HTMLInputElement> = inputsSection.querySelectorAll('input');
+
+        // Each input has onChange eventListener that recalculates sum, avg, min and max
+        inputs.forEach(inputItem => {
+            inputItem.addEventListener('change', function() {
+                let tab: Array<number> = [];
+                let sumValue: number | null = null;
+
+                // Sums all of the values
+                inputs.forEach(inputItem => {
+                    tab.push(Number(inputItem.value));
+                    sumValue += Number(inputItem.value);
+                })
+
+                const sum: HTMLParagraphElement = document.getElementById('sum') as HTMLParagraphElement;
+                const avg: HTMLParagraphElement = document.getElementById('avg') as HTMLParagraphElement;
+                const min: HTMLParagraphElement = document.getElementById('min') as HTMLParagraphElement;
+                const max: HTMLParagraphElement = document.getElementById('max') as HTMLParagraphElement;
+
+                sum.innerHTML = `Sum = ${sumValue}`;
+                avg.innerHTML = `Average = ${sumValue/inputs.length}`;
+                max.innerHTML = `Maximum = ${findMax(tab)}`;
+                min.innerHTML = `Minimum = ${findMin(tab)}`;
+            })
         })
-    }
+    });
+});
 
-    generateInvalidUI(): void {
-        const invalidMsg = document.createElement('b');
-        invalidMsg.innerText = "Provide any numbers!";
-        this.statsSection.appendChild(invalidMsg);
-    }
+const findMax = (tab : Array<number>) : number => {
+    let current = tab[0];
+    tab.forEach(el => {
+        if (el > current)
+            current = el;
+    })
+    return current;
 }
 
-// Stworzenie obiektu
-const inputsApp = new InputsApp();
+const findMin = (tab : Array<number>) : number => {
+    let current = tab[0];
+    tab.forEach(el => {
+        if (el < current)
+            current = el;
+    })
+    return current;
+}

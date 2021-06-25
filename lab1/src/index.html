@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE-edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>lab1</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
-    <body>
-        <noscript>Please enable Javascript!</noscript>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab1</title>
+</head>
+<body>
+    <section id="UI">
+        <label for="inputsQuantity">Specify amount of inputs: </label>
+        <input type="number" id="inputsQuantity" />
+        <button>Create</button>
+    </section>
 
-        <p>How many inputs do you need?</p>
-        <input id="inputs-count" type="number" min="0" value="1" />
-        
-        <hr>
+    <hr />
 
-        <section id="inputs" class="inputs-section">
-            <p>Inputs:</p>
-        </section>
+    <section id="inputsSection" style="display: flex; flex-direction: column; max-width: 200px;"></section>
+    <div id="calculations">
+        <p id="sum"></p>
+        <p id="avg"></p>
+        <p id="min"></p>
+        <p id="max"></p>
+    </div>
 
-        <section id="UI-section">
-            <p>Results:</p>
-        </section>
-
-        <script src="index.js"></script>
-    </body>
+    <script src="./index.js"></script>
+</body>
 </html>
