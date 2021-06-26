@@ -17,6 +17,7 @@ class Application {
 
     // Gets weather forecast for provided city
     private getWeather = (city: string): any => {
+        console.log('pobieram pogode');
         const appid = 'aa8b6dc42b70fe9332a39e81c4b28230';
         const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}&units=metric&lang=PL`;
 
