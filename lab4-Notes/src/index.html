@@ -1,64 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-  <title>Google Keep</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booble Keep</title>
+    <link rel="StyleSheet" type="text/css" href="styles.css" />
 </head>
-
 <body>
-  <main>
-    <div class="main" id="main">
-      <h1 style="font-size: 32px;">Google Keep</h1>
-      <ul class="forecast" id="forecast">
-          <div id="testNote" class="note">
-            <div class="topNoteBar">
-              <h1>
-                Sample note
-              </h1>
-              <div class="noteButtons">
-                <i class="fas fa-thumbtack pinNoteButton" onClick=""></i>
-                <i class="fas fa-times deleteNoteButton" onClick=""></i>
-              </div>
-            </div>
-
-            <p>
-              Here is some text of the note blah blah blah
-            </p>
-          </div>
-          <div id="testNote" class="note">
-            <div class="topNoteBar">
-              <h1>
-                Sample note 2
-              </h1>
-              <div class="noteButtons">
-                <i class="fas fa-thumbtack pinNoteButton" onClick=""></i>
-                <i class="fas fa-times deleteNoteButton" onClick=""></i>
-              </div>
-            </div>
-
-            <p>
-              Here is some text of the note blah blah blah
-            </p>
-          </div>
-      </ul>
-    </div>
-  </main>
-  <aside>
-    <form class="inputWrapper" id="weatherForm">
-      <input id="cityInput" class="input" type="text" placeholder="Add new note" />
-      <button id="cityButton" class="button" type="submit" disabled="true"></button>
-    </form>
-    <ul id="cityList" class="city-list">
-      <!-- render childs here -->
-    </ul>
-  </aside>
-
-  <script src="index.js"></script>
+    <section class="header">
+        <h1>Booble Keep</h1>
+        <div class="wrapper">
+            <input class="noteTitleInput" type="text" name="caption" placeholder="Note title" />
+            <textarea name="content" placeholder="Note content"></textarea>
+            <span>Note color:</span>
+            <button class="colorPicker yellow" data-color="yellow"></button>
+            <button class="colorPicker green" data-color="green"></button>
+            <button class="colorPicker blue" data-color="blue"></button>
+            <button role="button">Add note</button>
+        </div>
+    </section>
+    <section class="notes">
+        <div id="container"></div>
+    </section>
+    <script src="index.js"></script>
 </body>
-
 </html>
