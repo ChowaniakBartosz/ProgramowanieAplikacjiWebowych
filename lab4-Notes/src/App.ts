@@ -5,14 +5,16 @@ import FirebaseStorage from './FirebaseStorage';
 class Application {
     noteBgColor: string = 'orange';
     notes: AppStorage = new AppStorage();
-    firebaseStorage : FirebaseStorage = new FirebaseStorage();
+    firebaseStorage: FirebaseStorage = new FirebaseStorage();
 
     constructor() {
+        console.log('application');
         this.notes.render();
 
         // Get add note button and add event listener
-        const addNoteButton: HTMLButtonElement | null = document.querySelector('button[role="button"]');
-        addNoteButton != null ? addNoteButton.addEventListener('click', this.handleAddNoteButton) : false;
+        let addNoteButton: HTMLButtonElement = document.getElementById('addButton') as HTMLButtonElement;
+        addNoteButton.addEventListener('click', this.handleAddNoteButton);
+        
 
         // Get all color picker buttons and add event listners to them
         const pickColorButtons: NodeListOf<HTMLButtonElement> = document.querySelectorAll('button[class^="colorPicker"]');
@@ -26,10 +28,11 @@ class Application {
         });
 
         // Get data from firebase
-        this.firebaseStorage.getData();
+        // this.firebaseStorage.getData();
     }
 
-    public handleAddNoteButton = () : void => {
+    handleAddNoteButton = () : void => {
+        console.log('handleAddNoteButton');
         let noteTitle: HTMLInputElement | null = document.querySelector('input[name="caption"]');
         let noteContent: HTMLTextAreaElement | null = document.querySelector('textarea[name="content"]');
 

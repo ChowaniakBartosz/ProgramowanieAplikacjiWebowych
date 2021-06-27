@@ -1,3 +1,3 @@
 export const Config = {
-    UseFirebase: true
+    UseFirebase: false
 };

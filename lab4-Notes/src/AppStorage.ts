@@ -4,15 +4,14 @@ import IAppStorage from './IAppStorage'
 class AppStorage implements IAppStorage {
     constructor() { }
 
-    render = () : void => {
-        const container: HTMLDivElement = document.getElementById('container') as HTMLDivElement;
+    public render = () : void => {
+        const container: HTMLDivElement | null = document.querySelector('#container');
 
         const data = this.getData();
 
         // Renders notes
-        if (container != null) {
-            container.innerHTML = null;
-
+        if(data != null) {
+            if (container != null) container.innerHTML = '';
             data.forEach(item => {
                 const note: HTMLDivElement = document.createElement('div');
                 note.classList.add(item.bgcolor);
@@ -41,7 +40,7 @@ class AppStorage implements IAppStorage {
 
     getData = () : Array<INote> => {
         const data = localStorage.getItem('notes');
-        return data ? JSON.parse(data) : null;
+        return data ? JSON.parse(data) : [];
     }
 }
 
