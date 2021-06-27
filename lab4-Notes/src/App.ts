@@ -1,11 +1,9 @@
 import LocalNote from './LocalNote'
 import AppStorage from './AppStorage';
-import FirebaseStorage from './FirebaseStorage';
 
 class Application {
     noteBgColor: string = 'orange';
     notes: AppStorage = new AppStorage();
-    firebaseStorage: FirebaseStorage = new FirebaseStorage();
 
     constructor() {
         console.log('application');
@@ -26,9 +24,6 @@ class Application {
                 }
             });
         });
-
-        // Get data from firebase
-        // this.firebaseStorage.getData();
     }
 
     handleAddNoteButton = () : void => {
